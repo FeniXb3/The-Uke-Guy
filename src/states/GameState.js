@@ -2,6 +2,7 @@
 /*global Config */
 /*global SadGuy */
 /*global console */
+/*jslint plusplus: true */
 
 Ukulele.Game = function (game) { 'use strict'; };
 
@@ -70,33 +71,64 @@ Ukulele.Game.prototype.setupSadGuys = function () {
 
 Ukulele.Game.prototype.setupSounds = function () {
     'use strict';
-    
+    var i = 1,
+        max = 5;
     this.sounds = {};
     
     this.sounds.DRUM = this.game.add.audio('drum');
     this.sounds.G = this.game.add.audio('g');
+    this.sounds.G.frets = [];
+    for (i = 1; i <= max; i++) {
+        this.sounds.G.frets.push(this.game.add.audio('g' + i));
+    }
     this.sounds.C = this.game.add.audio('c');
+    this.sounds.C.frets = [];
+    for (i = 1; i <= max; i++) {
+        this.sounds.C.frets.push(this.game.add.audio('c' + i));
+    }
     this.sounds.E = this.game.add.audio('e');
+    this.sounds.E.frets = [];
+    for (i = 1; i <= max; i++) {
+        this.sounds.E.frets.push(this.game.add.audio('e' + i));
+    }
     this.sounds.A = this.game.add.audio('a');
+    this.sounds.A.frets = [];
+    for (i = 1; i <= max; i++) {
+        this.sounds.A.frets.push(this.game.add.audio('a' + i));
+    }
 };
 
 Ukulele.Game.prototype.setupControls = function () {
     'use strict';
+    var i = 1,
+        max = 5;
+    
     this.drumKey = this.game.input.keyboard.addKey(Config.Controls.DRUM);
     this.drumKey.onDown.add(this.handleDrumKeyDown, this);
-    //this.drumKey.onUp.add(this.handleDrumKeyUp, this);
 
-    this.gKey = this.game.input.keyboard.addKey(Config.Controls.G);
+    this.gKey = this.game.input.keyboard.addKey(Config.Controls.G.Key);
+    for (i = 1; i <= max; i++) {
+        this.game.input.keyboard.addKey(Config.Controls.G.Frets[i]);
+    }
     this.gKey.onDown.add(this.handleGKeyDown, this);
-    //this.gKey.onUp.add(this.handleGKeyUp, this);
     
-    this.cKey = this.game.input.keyboard.addKey(Config.Controls.C);
+    this.cKey = this.game.input.keyboard.addKey(Config.Controls.C.Key);
+    for (i = 1; i <= max; i++) {
+        console.log(Config.Controls.C.Frets[i]);
+        this.game.input.keyboard.addKey(Config.Controls.C.Frets[i]);
+    }
     this.cKey.onDown.add(this.handleCKeyDown, this);
     
-    this.eKey = this.game.input.keyboard.addKey(Config.Controls.E);
+    this.eKey = this.game.input.keyboard.addKey(Config.Controls.E.Key);
+    for (i = 1; i <= max; i++) {
+        this.game.input.keyboard.addKey(Config.Controls.E.Frets[i]);
+    }
     this.eKey.onDown.add(this.handleEKeyDown, this);
     
-    this.aKey = this.game.input.keyboard.addKey(Config.Controls.A);
+    this.aKey = this.game.input.keyboard.addKey(Config.Controls.A.Key);
+    for (i = 1; i <= max; i++) {
+        this.game.input.keyboard.addKey(Config.Controls.A.Frets[i]);
+    }
     this.aKey.onDown.add(this.handleAKeyDown, this);
 };
 
@@ -108,30 +140,43 @@ Ukulele.Game.prototype.handleDrumKeyDown = function (key) {
 
 Ukulele.Game.prototype.handleGKeyDown = function (key) {
     'use strict';
-    this.sounds.G.play();
-    
-    this.checkNote('G');
+    this.playAndCheck(Config.Controls.G, this.sounds.G, 'G');
 };
 
 Ukulele.Game.prototype.handleCKeyDown = function (key) {
     'use strict';
-    this.sounds.C.play();
     
-    this.checkNote('C');
+    this.playAndCheck(Config.Controls.C, this.sounds.C, 'C');
 };
 
 Ukulele.Game.prototype.handleEKeyDown = function (key) {
     'use strict';
-    this.sounds.E.play();
-    
-    this.checkNote('E');
+    this.playAndCheck(Config.Controls.E, this.sounds.E, 'E');
 };
 
 Ukulele.Game.prototype.handleAKeyDown = function (key) {
     'use strict';
-    this.sounds.A.play();
+    this.playAndCheck(Config.Controls.A, this.sounds.A, 'A');
+};
+
+Ukulele.Game.prototype.playAndCheck = function (control, sound, note) {
+    'use strict';
+    var i = 1,
+        max = 5;
     
-    this.checkNote('A');
+    for (i = max; i > 0; i--) {
+        if (this.game.input.keyboard._keys[control.Frets[i]].isDown) {
+            break;
+        }
+    }
+    
+    if (i > 0) {
+        sound.frets[(i - 1)].play();
+        this.checkNote(note + (i - 1));
+    } else {
+        sound.play();
+        this.checkNote(note);
+    }
 };
 
 Ukulele.Game.prototype.checkNote = function (note) {
