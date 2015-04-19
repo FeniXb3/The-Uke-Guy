@@ -1,5 +1,7 @@
 /*global Ukulele */
 /*global Config */
+/*global SadGuy */
+/*global console */
 
 Ukulele.Game = function (game) { 'use strict'; };
 
@@ -9,9 +11,14 @@ Ukulele.Game.prototype.create = function () {
     this.mainFont = "mainFont";
     this.game.world.setBounds(0, 0, Config.MAP_WIDTH, Config.MAP_HEIGHT);
     
+    this.drawSky();
+    this.drawGround();
     this.drawSun();
     
     this.setupUkeGuy();
+    this.setupSadGuys();
+    this.setupSounds();
+    this.setupControls();
     
     
     //this.displayTitle();
@@ -24,6 +31,20 @@ Ukulele.Game.prototype.update = function () {
     'use strict';
 };
 
+Ukulele.Game.prototype.drawSky = function () {
+    'use strict';
+    
+    var sky = this.game.add.graphics(0, 0);
+    sky.beginFill(0x3311FF, 1);
+    sky.drawRect(0, 0, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2);
+};
+Ukulele.Game.prototype.drawGround = function () {
+    'use strict';
+    
+    var ground = this.game.add.graphics(0, 0);
+    ground.beginFill(0xf4a460, 1);
+    ground.drawRect(0, Config.MAP_HEIGHT / 3 * 2, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3);
+};
 Ukulele.Game.prototype.drawSun = function () {
     'use strict';
     
@@ -35,10 +56,95 @@ Ukulele.Game.prototype.drawSun = function () {
 
 Ukulele.Game.prototype.setupUkeGuy = function () {
     'use strict';
-    this.ukeGuy = this.game.add.sprite(200, 400, 'ukeGuy');
-    this.ukeGuy.scale.x = 0.25;
-    this.ukeGuy.scale.y = 0.25;
+    this.ukeGuy = this.game.add.sprite(50, Config.MAP_HEIGHT / 3 * 2, 'ukeGuy');
+    this.ukeGuy.anchor.y = 0.5;
+    this.ukeGuy.anchor.x = 0.5;
 };
+
+Ukulele.Game.prototype.setupSadGuys = function () {
+    'use strict';
+    this.sadGuy = new SadGuy(this.game, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2, 'sadGuy');
+    
+};
+
+
+Ukulele.Game.prototype.setupSounds = function () {
+    'use strict';
+    
+    this.sounds = {};
+    
+    this.sounds.DRUM = this.game.add.audio('drum');
+    this.sounds.G = this.game.add.audio('g');
+    this.sounds.C = this.game.add.audio('c');
+    this.sounds.E = this.game.add.audio('e');
+    this.sounds.A = this.game.add.audio('a');
+};
+
+Ukulele.Game.prototype.setupControls = function () {
+    'use strict';
+    this.drumKey = this.game.input.keyboard.addKey(Config.Controls.DRUM);
+    this.drumKey.onDown.add(this.handleDrumKeyDown, this);
+    //this.drumKey.onUp.add(this.handleDrumKeyUp, this);
+
+    this.gKey = this.game.input.keyboard.addKey(Config.Controls.G);
+    this.gKey.onDown.add(this.handleGKeyDown, this);
+    //this.gKey.onUp.add(this.handleGKeyUp, this);
+    
+    this.cKey = this.game.input.keyboard.addKey(Config.Controls.C);
+    this.cKey.onDown.add(this.handleCKeyDown, this);
+    
+    this.eKey = this.game.input.keyboard.addKey(Config.Controls.E);
+    this.eKey.onDown.add(this.handleEKeyDown, this);
+    
+    this.aKey = this.game.input.keyboard.addKey(Config.Controls.A);
+    this.aKey.onDown.add(this.handleAKeyDown, this);
+};
+
+Ukulele.Game.prototype.handleDrumKeyDown = function (key) {
+    'use strict';
+    this.sounds.DRUM.play();
+    this.checkNote('DRUM');
+};
+
+Ukulele.Game.prototype.handleGKeyDown = function (key) {
+    'use strict';
+    this.sounds.G.play();
+    
+    this.checkNote('G');
+};
+
+Ukulele.Game.prototype.handleCKeyDown = function (key) {
+    'use strict';
+    this.sounds.C.play();
+    
+    this.checkNote('C');
+};
+
+Ukulele.Game.prototype.handleEKeyDown = function (key) {
+    'use strict';
+    this.sounds.E.play();
+    
+    this.checkNote('E');
+};
+
+Ukulele.Game.prototype.handleAKeyDown = function (key) {
+    'use strict';
+    this.sounds.A.play();
+    
+    this.checkNote('A');
+};
+
+Ukulele.Game.prototype.checkNote = function (note) {
+    'use strict';
+    
+    console.log(this.sadGuy.happySong.currentNote);
+    console.log(this.sadGuy.happySong.notes[this.sadGuy.happySong.currentNote]);
+    if (this.sadGuy.happySong.currentNote < this.sadGuy.happySong.notes.length
+            && this.sadGuy.happySong.notes[this.sadGuy.happySong.currentNote] === note) {
+        this.sadGuy.happySong.currentNote += 1;
+    }
+};
+
 
 Ukulele.Game.prototype.isTheEnd = function () {
     'use strict';
