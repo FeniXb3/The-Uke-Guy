@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Ukulele - An Unconventional Weapon - Ludum Dare 32</title>
+        
+        <script src="src/libs/phaser/phaser.js"></script>
+        
+        <script src="src/utils/Config.js"></script>
+         
+        <script src="src/states/BootState.js"></script>
+        <script src="src/states/PreloaderState.js"></script>
+        <script src="src/states/GameState.js"></script>
+        
+        <style>
+            canvas { margin: 0 auto; }
+        </style>
+    </head>
+    <body>
+        <script>
+            (function(){
+                var game = new Phaser.Game(Config.MAP_WIDTH, Config.MAP_HEIGHT, Phaser.CANVAS, 'Ukulele');
+                game.state.add('Boot', Ukulele.Boot);
+                game.state.add('Preloader', Ukulele.Preloader);
+                game.state.add('Game', Ukulele.Game);
+                game.state.start('Boot');
+            })();
+        </script>
+    </body>
+</html>
