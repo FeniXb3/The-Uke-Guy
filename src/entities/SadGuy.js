@@ -19,6 +19,19 @@ var SadGuy = function (game, x, y, image) {
     this.isSad = true;
     this.metUkeGuy = false;
     
+    this.noteBox = this.game.add.sprite(0, -100, 'noteBox');
+    this.noteBox.anchor.setTo(1, 1);
+    this.noteBox.scale.x = 5;
+    this.noteBox.scale.y = 6;
+    
+    this.currentNoteText = this.game.add.bitmapText(-20, -10, 'mainFont', 'Music...', 15);
+    this.currentNoteText.anchor.setTo(1, 1);
+    
+    this.noteBox.addChild(this.currentNoteText);
+    this.addChild(this.noteBox);
+    
+    
+    
     this.setupHappySong();
     
 };
@@ -44,14 +57,27 @@ SadGuy.prototype.update = function () {
     
     if (!this.isSad && this.metUkeGuy) {
         this.velocity = 0;
+        this.currentNoteText.text = "Play!";
+        if (!this.happySong.whole.isPlaying) {
+            this.happySong.whole.play();
+        }
     } else {
-        this.velocity = -66;
+        if (this.isSad) {
+            this.velocity = -66;
+        } else {
+            this.velocity = -120;
+        }
+        
+        if (this.happySong.notes[this.happySong.currentNote]) {
+            this.currentNoteText.text = this.happySong.notes[this.happySong.currentNote];
+        }
     }
     
     if (this.happySong.currentNote === this.happySong.notes.length && this.isSad) {
         this.isSad = false;
         this.tint = 0xFFFFFF;
-        this.happySong.whole.play();
+        
+        this.currentNoteText.text = "Happy!";
     }
 };
 

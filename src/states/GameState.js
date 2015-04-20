@@ -75,7 +75,7 @@ Ukulele.Game.prototype.drawSun = function () {
 
 Ukulele.Game.prototype.setupUkeGuy = function () {
     'use strict';
-    this.ukeGuy = this.game.add.sprite(50, Config.MAP_HEIGHT / 3 * 2, 'ukeGuy');
+    this.ukeGuy = this.game.add.sprite(100, Config.MAP_HEIGHT / 3 * 2, 'ukeGuy');
     this.game.physics.enable(this.ukeGuy, Phaser.Physics.ARCADE);
     this.ukeGuy.anchor.y = 0.75;
     this.ukeGuy.anchor.x = 0.5;
@@ -192,7 +192,7 @@ Ukulele.Game.prototype.playAndCheck = function (control, sound, note) {
     
     if (i > 0) {
         sound.frets[(i - 1)].play();
-        this.checkNote(note + (i - 1));
+        this.checkNote(note + (i));
     } else {
         sound.play();
         this.checkNote(note);
