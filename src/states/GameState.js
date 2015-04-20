@@ -14,9 +14,7 @@ Ukulele.Game.prototype.create = function () {
     this.mainFont = "mainFont";
     this.game.world.setBounds(0, 0, Config.MAP_WIDTH, Config.MAP_HEIGHT);
     
-    //if (!this.background) {
-        this.background = this.add.tileSprite(0, 0,  Config.MAP_WIDTH, Config.MAP_HEIGHT, 'bg');
-    //}
+    this.background = this.add.tileSprite(0, 0,  Config.MAP_WIDTH, Config.MAP_HEIGHT, 'bg');
     
     //this.drawSky();
     //this.drawGround();
@@ -52,7 +50,9 @@ Ukulele.Game.prototype.checkCollisions = function () {
 Ukulele.Game.prototype.collideGuys = function (sadGuy, ukeGuy) {
     'use strict';
     sadGuy.metUkeGuy = true;
-    this.isTheEnd();
+    if (sadGuy.isSad) {
+        this.isTheEnd();
+    }
 };
 
 
@@ -90,8 +90,69 @@ Ukulele.Game.prototype.setupUkeGuy = function () {
 
 Ukulele.Game.prototype.setupSadGuys = function () {
     'use strict';
+    this.setupSongs();
     this.sadGuy = new SadGuy(this.game, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2, 'sadGuy');
+    
+    
+    
+    this.sadGuy.setupHappySong(this.songs[0]);
     this.displayHint();
+};
+
+
+Ukulele.Game.prototype.setupSongs = function () {
+    'use strict';
+    this.songs = [];
+    this.currentSong = 0;
+    var happySong = {};
+    // 1
+    happySong.whole = this.game.add.audio('firstHappySong');
+    happySong.whole.onStop.add(this.songEnded, this);
+    
+    happySong.notes = [
+        'G',
+        'A',
+        'E',
+        'C',
+        'G',
+        'DRUM'
+    ];
+    this.songs.push(happySong);
+    
+    // 2
+    happySong = {};
+    happySong.whole = this.game.add.audio('secondHappySong');
+    happySong.whole.onStop.add(this.songEnded, this);
+    
+    happySong.notes = [
+        'C2',
+        'E2',
+        'A1',
+        'G',
+        'G2',
+        'A',
+        'E1',
+        'C'
+    ];
+    this.songs.push(happySong);
+    
+    // 3
+    happySong = {};
+    happySong.whole = this.game.add.audio('lastHappySong');
+    happySong.whole.onStop.add(this.songEnded, this);
+    
+    happySong.notes = [
+        'G2',
+        'C2',
+        'E2',
+        'A',
+        'G',
+        'G2',
+        'A',
+        'E1',
+        'C'
+    ];
+    this.songs.push(happySong);
 };
 
 
@@ -121,6 +182,34 @@ Ukulele.Game.prototype.setupSounds = function () {
     this.sounds.A.frets = [];
     for (i = 1; i <= max; i++) {
         this.sounds.A.frets.push(this.game.add.audio('a' + i));
+    }
+};
+
+Ukulele.Game.prototype.songEnded = function (sound) {
+    'use strict';
+    if (this.over) {
+        return;
+    }
+    var i = 0;
+    
+    this.currentSong++;
+    
+    if (this.currentSong < this.songs.length) {
+        this.sadGuy.destroy();
+        this.sadGuy = new SadGuy(this.game, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2, 'sadGuy', -40);
+        this.sadGuy.scale.x += 0.5 * this.currentSong;
+        this.sadGuy.scale.y += 0.5 * this.currentSong;
+        
+        while (i++ < this.currentSong) {
+            this.sadGuy.tint += 0x333333;
+        }
+        
+        //this.sadGuy.reset();
+        this.sadGuy.setupHappySong(this.songs[this.currentSong]);
+        this.displayHint();
+    } else {
+        console.log('no more songs');
+        this.isTheEnd();
     }
 };
 
@@ -244,7 +333,7 @@ Ukulele.Game.prototype.isTheEnd = function () {
 
     setTimeout(function () {
         that.game.state.start('Preloader', true, false);
-    }, 3000);
+    }, 5000);
 };
 
 Ukulele.Game.prototype.clear = function () {
@@ -256,7 +345,8 @@ Ukulele.Game.prototype.clear = function () {
 Ukulele.Game.prototype.displayHint = function () {
     'use strict';
     if (!this.hint) {
-        this.hint = this.game.add.bitmapText(0, 0, this.mainFont,  'Hint', 34);
+        this.hint = this.game.add.bitmapText(0, 0, this.mainFont,  'Hint', 44);
+        //this.hint.tint = 0x00FF00;
     }
     
     if (this.sadGuy.happySong.currentNote < this.sadGuy.happySong.notes.length) {
@@ -279,7 +369,7 @@ Ukulele.Game.prototype.displayHint = function () {
         }
         this.hint.updateTransform();
         this.hint.x = Config.MAP_WIDTH / 2 - this.hint.width / 2;
-        this.hint.y = Config.MAP_HEIGHT / 12;
+        this.hint.y = Config.MAP_HEIGHT / 12 * 10;
     } else {
         this.hint.text = 'well done!';
     }

@@ -1,10 +1,11 @@
 /*global Phaser */
 /*jslint plusplus: true */
 
-var SadGuy = function (game, x, y, image) {
+var SadGuy = function (game, x, y, image, velocity) {
     'use strict';
     x = x || 0;
     y = y || 0;
+    velocity = velocity || -66;
     
     Phaser.Sprite.call(this, game, x, y, image);
     this.game.add.existing(this);
@@ -30,9 +31,12 @@ var SadGuy = function (game, x, y, image) {
     this.noteBox.addChild(this.currentNoteText);
     this.addChild(this.noteBox);
     
+    this.startX = x;
+    this.startY = y;
+    this.startVelocity = velocity;
+    this.songPlayed = false;
     
-    
-    this.setupHappySong();
+    //this.setupHappySong();
     
 };
 
@@ -52,20 +56,32 @@ Object.defineProperty(SadGuy.prototype, "velocity", {
     }
 });
 
+SadGuy.prototype.reset = function () {
+    'use strict';
+    this.x = this.startX;
+    this.y = this.startY;
+    this.velocity = this.startVelocity;
+    this.tint = 0x333333;
+    this.metUkeGuy = false;
+    this.isSad = true;
+};
+
+
 SadGuy.prototype.update = function () {
     'use strict';
     
     if (!this.isSad && this.metUkeGuy) {
         this.velocity = 0;
         this.currentNoteText.text = "Play!";
-        if (!this.happySong.whole.isPlaying) {
+        if (!this.happySong.whole.isPlaying && !this.songPlayed) {
+            this.songPlayed = true;
             this.happySong.whole.play();
         }
     } else {
         if (this.isSad) {
-            this.velocity = -66;
+            this.velocity = this.startVelocity;
         } else {
-            this.velocity = -120;
+            this.velocity = this.startVelocity * 3;
         }
         
         if (this.happySong.notes[this.happySong.currentNote]) {
@@ -81,19 +97,8 @@ SadGuy.prototype.update = function () {
     }
 };
 
-SadGuy.prototype.setupHappySong = function () {
+SadGuy.prototype.setupHappySong = function (song) {
     'use strict';
-    this.happySong = {};
-    this.happySong.whole = this.game.add.audio('firstHappySong');
-    
-    this.happySong.notes = [
-        'G',
-        'A',
-        'E',
-        'C',
-        'G',
-        'DRUM'
-    ];
-    
+    this.happySong = song;
     this.happySong.currentNote = 0;
 };

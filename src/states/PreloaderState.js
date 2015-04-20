@@ -53,7 +53,11 @@ Ukulele.Preloader.prototype = {
         for (i = 1; i <= max; i++) {
             this.load.audio('a' +  i, 'assets/audio/a/a' + i + '.mp3');
         }
-        this.load.audio('firstHappySong', 'assets/audio/firstHappySong.mp3');
+        
+        // happy songs
+        this.load.audio('firstHappySong', 'assets/audio/songs/firstHappySong.mp3');
+        this.load.audio('secondHappySong', 'assets/audio/songs/secondHappySong.mp3');
+        this.load.audio('lastHappySong', 'assets/audio/songs/lastHappySong.mp3');
         
     },
     create: function () {
