@@ -28,6 +28,9 @@ Ukulele.Preloader.prototype = {
         this.load.image('sadGuy', 'assets/graphics/sadGuy.png');
         this.load.image('noteBox', 'assets/graphics/noteBox.png');
         
+        
+        this.load.spritesheet('forkme', 'assets/graphics/forkme.png');
+        
         // sounds
         this.load.audio('drum', 'assets/audio/drum.mp3');
         this.load.audio('g', 'assets/audio/g.mp3');

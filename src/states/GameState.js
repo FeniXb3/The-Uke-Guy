@@ -27,6 +27,8 @@ Ukulele.Game.prototype.create = function () {
     
     this.gameStart = this.game.time.now;
     this.over = false;
+    
+    this.displayForkMe();
 };
 
 Ukulele.Game.prototype.update = function () {
@@ -260,4 +262,16 @@ Ukulele.Game.prototype.displayTitle = function () {
     this.titleDino = this.game.add.bitmapText(0, 0, this.mainFont,  '+', 62);
     this.titleDino.x = Config.MAP_WIDTH / 2 - this.titleDino.width / 2;
     this.titleDino.y = Config.MAP_HEIGHT / 12 + 215;
+};
+
+
+Ukulele.Game.prototype.displayForkMe = function () {
+    'use strict';
+    this.forkMeButton = this.add.button(Config.MAP_WIDTH, 0, 'forkme', this.goToGitHub, this, 0, 0, 0);
+    this.forkMeButton.anchor.setTo(1, 0);
+};
+
+Ukulele.Game.prototype.goToGitHub =  function () {
+    'use strict';
+    window.open('https://github.com/FeniXb3/The-Uke-Guy', '_blank');
 };
