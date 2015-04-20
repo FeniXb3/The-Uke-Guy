@@ -27,6 +27,7 @@ Ukulele.Preloader.prototype = {
         // sad guys
         this.load.image('sadGuy', 'assets/graphics/sadGuy.png');
         this.load.image('noteBox', 'assets/graphics/noteBox.png');
+        this.load.image('zegis', 'assets/graphics/zegis.png');
         
         
         this.load.spritesheet('forkme', 'assets/graphics/forkme.png');

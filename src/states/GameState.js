@@ -193,13 +193,19 @@ Ukulele.Game.prototype.songEnded = function (sound) {
     if (this.over) {
         return;
     }
-    var i = 0;
+    var i = 0,
+        spriteName = 'sadGuy';
     
     this.currentSong++;
     
     if (this.currentSong < this.songs.length) {
         this.sadGuy.destroy();
-        this.sadGuy = new SadGuy(this.game, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2, 'sadGuy', -40);
+        if (this.currentSong === this.songs.length - 1) {
+            spriteName = 'zegis';
+        }
+        
+        this.sadGuy = new SadGuy(this.game, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2, spriteName, -40);
+        
         this.sadGuy.scale.x += 0.5 * this.currentSong;
         this.sadGuy.scale.y += 0.5 * this.currentSong;
         
