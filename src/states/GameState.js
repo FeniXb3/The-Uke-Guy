@@ -3,6 +3,7 @@
 /*global SadGuy */
 /*global console */
 /*jslint plusplus: true */
+/*global Phaser */
 
 Ukulele.Game = function (game) { 'use strict'; };
 
@@ -30,7 +31,24 @@ Ukulele.Game.prototype.create = function () {
 
 Ukulele.Game.prototype.update = function () {
     'use strict';
+    this.checkCollisions();
 };
+
+Ukulele.Game.prototype.checkCollisions = function () {
+    'use strict';
+    this.game.physics.arcade.overlap(this.sadGuy, this.ukeGuy, this.collideGuys, null, this);
+};
+
+
+Ukulele.Game.prototype.collideGuys = function (sadGuy, ukeGuy) {
+    'use strict';
+    sadGuy.metUkeGuy = true;
+    
+    this.isTheEnd();
+    //if (sadGuy.isSad) {
+    //}
+};
+
 
 Ukulele.Game.prototype.drawSky = function () {
     'use strict';
@@ -58,8 +76,10 @@ Ukulele.Game.prototype.drawSun = function () {
 Ukulele.Game.prototype.setupUkeGuy = function () {
     'use strict';
     this.ukeGuy = this.game.add.sprite(50, Config.MAP_HEIGHT / 3 * 2, 'ukeGuy');
-    this.ukeGuy.anchor.y = 0.5;
+    this.game.physics.enable(this.ukeGuy, Phaser.Physics.ARCADE);
+    this.ukeGuy.anchor.y = 0.75;
     this.ukeGuy.anchor.x = 0.5;
+    this.ukeGuy.angle = 35;
 };
 
 Ukulele.Game.prototype.setupSadGuys = function () {
@@ -197,9 +217,15 @@ Ukulele.Game.prototype.isTheEnd = function () {
         gameTime;
     
     this.over = true;
-    this.gameOverLabel = this.game.add.bitmapText(0, 0, this.mainFont, "Game Over", 50);
-    this.gameOverLabel.tint = 0xFF1111;
+    this.displayTitle();
     
+    if (this.sadGuy.isSad) {
+        this.gameOverLabel = this.game.add.bitmapText(0, 0, this.mainFont, "Game Over", 50);
+        this.gameOverLabel.tint = 0xFF1111;
+    } else {
+        this.gameOverLabel = this.game.add.bitmapText(0, 0, this.mainFont, "You defeated sadness with ukulele!", 50);
+        this.gameOverLabel.tint = 0x00FF00;
+    }
     
     this.gameOverLabel.updateTransform();
     this.gameOverLabel.x = Config.MAP_WIDTH / 2 - this.gameOverLabel.width / 2;
@@ -208,13 +234,13 @@ Ukulele.Game.prototype.isTheEnd = function () {
     gameTime = this.game.time.now - this.gameStart;
 
     setTimeout(function () {
-        that.game.state.start('Boot', true, false);
+        that.game.state.start('Game', true, false);
     }, 3000);
 };
 
 Ukulele.Game.prototype.displayTitle = function () {
     'use strict';
-    this.title = this.game.add.bitmapText(0, 0, this.mainFont,  '% Ukulele %', 62);
+    this.title = this.game.add.bitmapText(0, 0, this.mainFont,  '% The Uke Guy %', 62);
     this.title.x = Config.MAP_WIDTH / 2 - this.title.width / 2;
     this.title.y = Config.MAP_HEIGHT / 12;
 

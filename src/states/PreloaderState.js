@@ -9,11 +9,21 @@ Ukulele.Preloader.prototype = {
         var i = 1,
             max = 5;
         this.mainFont = 'mainFont';
+        
+        this.preloadBox = this.add.sprite(Config.MAP_WIDTH / 2, Config.MAP_HEIGHT / 2, 'loadingBox');
+        this.preloadBox.x -= this.preloadBox.width / 2;
+        //this.preloadBox.anchor.setTo(0.5, 0.5);
+        this.preloadBar = this.add.sprite(Config.MAP_WIDTH / 2, Config.MAP_HEIGHT / 2, 'loadingBar');
+        this.preloadBar.x -= this.preloadBar.width / 2;
+        //this.preloadBar.anchor.setTo(0.5, 0.5);
+        this.load.setPreloadSprite(this.preloadBar);
+        
+        
         this.displayTitle();
+        
         
         // player
         this.load.image('ukeGuy', 'assets/graphics/ukeGuy.png');
-        
         // sad guys
         this.load.image('sadGuy', 'assets/graphics/sadGuy.png');
         
@@ -47,6 +57,7 @@ Ukulele.Preloader.prototype = {
 
 Ukulele.Preloader.prototype.displayTitle = function () {
     'use strict';
+    
     this.title = this.game.add.bitmapText(0, 0, this.mainFont,  '% Ukulele %', 62);
     this.title.x = Config.MAP_WIDTH / 2 - this.title.width / 2;
     this.title.y = Config.MAP_HEIGHT / 12;

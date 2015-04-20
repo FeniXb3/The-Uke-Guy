@@ -11,12 +11,13 @@ var SadGuy = function (game, x, y, image) {
 
     this.anchor.setTo(0.5, 0.5);
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.body.collideWorldBounds = true;
+    //this.body.collideWorldBounds = true;
     this.scale.x = 0.5;
     this.scale.y = 0.5;
     
     this.tint = 0x333333;
     this.isSad = true;
+    this.metUkeGuy = false;
     
     this.setupHappySong();
     
@@ -41,7 +42,11 @@ Object.defineProperty(SadGuy.prototype, "velocity", {
 SadGuy.prototype.update = function () {
     'use strict';
     
-    this.velocity = -66;
+    if (!this.isSad && this.metUkeGuy) {
+        this.velocity = 0;
+    } else {
+        this.velocity = -66;
+    }
     
     if (this.happySong.currentNote === this.happySong.notes.length && this.isSad) {
         this.isSad = false;
