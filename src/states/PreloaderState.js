@@ -31,6 +31,9 @@ Ukulele.Preloader.prototype = {
         
         this.load.spritesheet('forkme', 'assets/graphics/forkme.png');
         
+        // background
+        this.load.image('bg', 'assets/graphics/bg.png');
+        
         // sounds
         this.load.audio('drum', 'assets/audio/drum.mp3');
         this.load.audio('g', 'assets/audio/g.mp3');
@@ -62,7 +65,7 @@ Ukulele.Preloader.prototype = {
 Ukulele.Preloader.prototype.displayTitle = function () {
     'use strict';
     
-    this.title = this.game.add.bitmapText(0, 0, this.mainFont,  '% Ukulele %', 62);
+    this.title = this.game.add.bitmapText(0, 0, this.mainFont,  '% The Uke Guy %', 62);
     this.title.x = Config.MAP_WIDTH / 2 - this.title.width / 2;
     this.title.y = Config.MAP_HEIGHT / 12;
 
@@ -79,7 +82,7 @@ Ukulele.Preloader.prototype.displayTitle = function () {
     this.titleLD.x = Config.MAP_WIDTH / 2 - this.titleLD.width / 2;
     this.titleLD.y = Config.MAP_HEIGHT / 12 + 185;
 
-    this.titleDino = this.game.add.bitmapText(0, 0, this.mainFont,  '+', 62);
-    this.titleDino.x = Config.MAP_WIDTH / 2 - this.titleDino.width / 2;
-    this.titleDino.y = Config.MAP_HEIGHT / 12 + 215;
+    //this.titleDino = this.game.add.bitmapText(0, 0, this.mainFont,  '+', 62);
+    //this.titleDino.x = Config.MAP_WIDTH / 2 - this.titleDino.width / 2;
+    //this.titleDino.y = Config.MAP_HEIGHT / 12 + 215;
 };

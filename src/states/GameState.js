@@ -14,8 +14,12 @@ Ukulele.Game.prototype.create = function () {
     this.mainFont = "mainFont";
     this.game.world.setBounds(0, 0, Config.MAP_WIDTH, Config.MAP_HEIGHT);
     
-    this.drawSky();
-    this.drawGround();
+    //if (!this.background) {
+        this.background = this.add.tileSprite(0, 0,  Config.MAP_WIDTH, Config.MAP_HEIGHT, 'bg');
+    //}
+    
+    //this.drawSky();
+    //this.drawGround();
     this.drawSun();
     
     this.setupUkeGuy();
@@ -136,7 +140,6 @@ Ukulele.Game.prototype.setupControls = function () {
     
     this.cKey = this.game.input.keyboard.addKey(Config.Controls.C.Key);
     for (i = 1; i <= max; i++) {
-        console.log(Config.Controls.C.Frets[i]);
         this.game.input.keyboard.addKey(Config.Controls.C.Frets[i]);
     }
     this.cKey.onDown.add(this.handleCKeyDown, this);
@@ -203,9 +206,10 @@ Ukulele.Game.prototype.playAndCheck = function (control, sound, note) {
 
 Ukulele.Game.prototype.checkNote = function (note) {
     'use strict';
+    if (this.over) {
+        return;
+    }
     
-    console.log(this.sadGuy.happySong.currentNote);
-    console.log(this.sadGuy.happySong.notes[this.sadGuy.happySong.currentNote]);
     if (this.sadGuy.happySong.currentNote < this.sadGuy.happySong.notes.length
             && this.sadGuy.happySong.notes[this.sadGuy.happySong.currentNote] === note) {
         this.sadGuy.happySong.currentNote += 1;
@@ -239,7 +243,7 @@ Ukulele.Game.prototype.isTheEnd = function () {
     gameTime = this.game.time.now - this.gameStart;
 
     setTimeout(function () {
-        that.game.state.start('Game', true, false);
+        that.game.state.start('Preloader', true, false);
     }, 3000);
 };
 
@@ -300,9 +304,9 @@ Ukulele.Game.prototype.displayTitle = function () {
     this.titleLD.x = Config.MAP_WIDTH / 2 - this.titleLD.width / 2;
     this.titleLD.y = Config.MAP_HEIGHT / 12 + 185;
 
-    this.titleDino = this.game.add.bitmapText(0, 0, this.mainFont,  '+', 62);
-    this.titleDino.x = Config.MAP_WIDTH / 2 - this.titleDino.width / 2;
-    this.titleDino.y = Config.MAP_HEIGHT / 12 + 215;
+    //this.titleDino = this.game.add.bitmapText(0, 0, this.mainFont,  '+', 62);
+    //this.titleDino.x = Config.MAP_WIDTH / 2 - this.titleDino.width / 2;
+    //this.titleDino.y = Config.MAP_HEIGHT / 12 + 215;
 };
 
 
