@@ -10,12 +10,18 @@ After hearing a part of the song he will run to you and ask you to play more!
 
 Controls:
 There are 4 basic sounds, as there are 4 strings in uke. The controls to trigger them:
+
 G - [Shift]
+
 C - [Enter]
+
 E - [Backslash]
+
 A - [Backspace]
 
+
 An additional sound:
+
 DRUM - [Ctrl]
 
 For each string there are 5 frets you can push before picking the string - this will
@@ -23,9 +29,13 @@ make a different sound! If a Sad Guy wants you to play a sound on a string with
 a fret, the number of the fret will be displayed with the string name.
 
 Buttons on your keyboard corresponding frets for different strings:
+
 G - [z], [x], [c], [v], [b]
+
 C - [a], [s], [d], [f], [g]
+
 E - [q], [w], [e], [r], [t]
+
 A - [1], [2], [3], [4], [5]
 
 So, to play a sound that is on first fret of G string, you have to press and hold [z]
@@ -36,6 +46,9 @@ from sadness, so there is not much chalange in the game. However, you can still
 play on your keyboard like on the 5-fretted ukulele!
 
 BTW, you can try playing some chords and strumming up and down. To play F chord:
+
 1. press and hold [q]
+
 2. press and hold [x]
+
 3. "strum" down or up by sliding your finger from [Shift] to [Enter] to [Backslash] to [Backspace].
