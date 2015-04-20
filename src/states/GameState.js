@@ -4,6 +4,7 @@
 /*global console */
 /*jslint plusplus: true */
 /*global Phaser */
+/*global KeyCodeToChar */
 
 Ukulele.Game = function (game) { 'use strict'; };
 
@@ -33,7 +34,9 @@ Ukulele.Game.prototype.create = function () {
 
 Ukulele.Game.prototype.update = function () {
     'use strict';
-    this.checkCollisions();
+    if (!this.over) {
+        this.checkCollisions();
+    }
 };
 
 Ukulele.Game.prototype.checkCollisions = function () {
@@ -45,10 +48,7 @@ Ukulele.Game.prototype.checkCollisions = function () {
 Ukulele.Game.prototype.collideGuys = function (sadGuy, ukeGuy) {
     'use strict';
     sadGuy.metUkeGuy = true;
-    
     this.isTheEnd();
-    //if (sadGuy.isSad) {
-    //}
 };
 
 
@@ -87,7 +87,7 @@ Ukulele.Game.prototype.setupUkeGuy = function () {
 Ukulele.Game.prototype.setupSadGuys = function () {
     'use strict';
     this.sadGuy = new SadGuy(this.game, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2, 'sadGuy');
-    
+    this.displayHint();
 };
 
 
@@ -210,6 +210,8 @@ Ukulele.Game.prototype.checkNote = function (note) {
             && this.sadGuy.happySong.notes[this.sadGuy.happySong.currentNote] === note) {
         this.sadGuy.happySong.currentNote += 1;
     }
+    
+    this.displayHint();
 };
 
 
@@ -220,6 +222,7 @@ Ukulele.Game.prototype.isTheEnd = function () {
     
     this.over = true;
     this.displayTitle();
+    this.clear();
     
     if (this.sadGuy.isSad) {
         this.gameOverLabel = this.game.add.bitmapText(0, 0, this.mainFont, "Game Over", 50);
@@ -238,6 +241,44 @@ Ukulele.Game.prototype.isTheEnd = function () {
     setTimeout(function () {
         that.game.state.start('Game', true, false);
     }, 3000);
+};
+
+Ukulele.Game.prototype.clear = function () {
+    'use strict';
+    this.hint.destroy();
+    this.hint = undefined;
+};
+
+Ukulele.Game.prototype.displayHint = function () {
+    'use strict';
+    if (!this.hint) {
+        this.hint = this.game.add.bitmapText(0, 0, this.mainFont,  'Hint', 34);
+    }
+    
+    if (this.sadGuy.happySong.currentNote < this.sadGuy.happySong.notes.length) {
+        var noteText = this.sadGuy.happySong.notes[this.sadGuy.happySong.currentNote],
+            currentString = '';
+        
+        if (noteText === 'DRUM') {
+            this.hint.text = '[' + KeyCodeToChar[Config.Controls[noteText]] + ']';
+        } else {
+            
+            currentString = '[' + KeyCodeToChar[Config.Controls[noteText.charAt(0)].Key] + ']';
+            
+            if (noteText.length > 1) {
+                currentString = '['
+                    + KeyCodeToChar[Config.Controls[noteText.charAt(0)].Frets[noteText.charAt(1)]]
+                    + '] & ' + currentString;
+            }
+            
+            this.hint.text = currentString;//KeyCodeToChar[Config.Controls[noteText].Key];
+        }
+        this.hint.updateTransform();
+        this.hint.x = Config.MAP_WIDTH / 2 - this.hint.width / 2;
+        this.hint.y = Config.MAP_HEIGHT / 12;
+    } else {
+        this.hint.text = 'well done!';
+    }
 };
 
 Ukulele.Game.prototype.displayTitle = function () {
