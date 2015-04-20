@@ -108,6 +108,7 @@ Ukulele.Game.prototype.setupSongs = function () {
     // 1
     happySong.whole = this.game.add.audio('firstHappySong');
     happySong.whole.onStop.add(this.songEnded, this);
+    happySong.sad = this.game.add.audio('firstSadSong');
     
     happySong.notes = [
         'G',
@@ -123,6 +124,7 @@ Ukulele.Game.prototype.setupSongs = function () {
     happySong = {};
     happySong.whole = this.game.add.audio('secondHappySong');
     happySong.whole.onStop.add(this.songEnded, this);
+    happySong.sad = this.game.add.audio('secondSadSong');
     
     happySong.notes = [
         'C2',
@@ -140,6 +142,7 @@ Ukulele.Game.prototype.setupSongs = function () {
     happySong = {};
     happySong.whole = this.game.add.audio('lastHappySong');
     happySong.whole.onStop.add(this.songEnded, this);
+    happySong.sad = this.game.add.audio('lastSadSong');
     
     happySong.notes = [
         'G2',
@@ -332,6 +335,7 @@ Ukulele.Game.prototype.isTheEnd = function () {
     gameTime = this.game.time.now - this.gameStart;
 
     setTimeout(function () {
+        that.sadGuy.happySong.sad.stop();
         that.game.state.start('Preloader', true, false);
     }, 5000);
 };

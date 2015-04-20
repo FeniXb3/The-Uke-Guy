@@ -92,6 +92,7 @@ SadGuy.prototype.update = function () {
     if (this.happySong.currentNote === this.happySong.notes.length && this.isSad) {
         this.isSad = false;
         this.tint = 0xFFFFFF;
+        this.happySong.sad.stop();
         
         this.currentNoteText.text = "Happy!";
     }
@@ -101,4 +102,5 @@ SadGuy.prototype.setupHappySong = function (song) {
     'use strict';
     this.happySong = song;
     this.happySong.currentNote = 0;
+    this.happySong.sad.loopFull();
 };
