@@ -1,6 +1,6 @@
 var Config = {
-    MAP_WIDTH: 1024,
-    MAP_HEIGHT: 768,
+    MAP_WIDTH: 900,
+    MAP_HEIGHT: 600,
     Controls: {
         DRUM: Phaser.Keyboard.CONTROL,
         G: {
