@@ -150,7 +150,8 @@ Ukulele.MainMenu.prototype.startGame = function () {
 Ukulele.MainMenu.prototype.showControls = function () {
     'use strict';
     var controlsText = '',
-        fretsText = '';
+        fretsText = '',
+        testText = '';
     
     controlsText = 'Controls:\n'
         + 'There are 4 uke strings sounds:\n'
@@ -171,17 +172,22 @@ Ukulele.MainMenu.prototype.showControls = function () {
         + 'G - [z], [x], [c], [v], [b]\n'
         + 'C - [a], [s], [d], [f], [g]\n'
         + 'E - [q], [w], [e], [r], [t]\n'
-        + 'A - [1], [2], [3], [4], [5]\n'
-        + '\n  YOU CAN TEST HERE!\n Hold [z] and press [shift]!';
+        + 'A - [1], [2], [3], [4], [5]\n';
     this.frets = this.game.add.bitmapText(10, 0, this.mainFont,  fretsText, 27);
     this.frets.x = Config.MAP_WIDTH / 2 - 20;// - this.title.width / 2;
     this.frets.y = Config.MAP_HEIGHT / 12 + 180;
     this.frets.tint = 0x5AFA5A;
     
+    testText = '\n  YOU CAN TEST HERE!\n Hold [z] and press [shift]!';
+    this.test = this.game.add.bitmapText(10, 0, this.mainFont,  testText, 27);
+    this.test.x = Config.MAP_WIDTH / 2 - 20;// - this.title.width / 2;
+    this.test.y = Config.MAP_HEIGHT / 12 + 360;
+    this.test.tint = 0xFF6600;
+    
     this.tryout = this.game.add.bitmapText(10, 0, this.mainFont,  'Sound: ', 27);
     this.tryout.x = Config.MAP_WIDTH / 2 + 270;// - this.title.width / 2;
     this.tryout.y = Config.MAP_HEIGHT / 12 + 450;
-    this.tryout.tint = 0xFFFF00;
+    this.tryout.tint = 0xFFAA00;
 };
 
 Ukulele.MainMenu.prototype.updateTryout = function (sound) {
