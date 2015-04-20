@@ -8,9 +8,11 @@
         
         <script src="src/utils/Config.js"></script>
         <script src="src/utils/Keys.js"></script>
+        <script src="src/utils/TextButton.js"></script>
          
         <script src="src/states/BootState.js"></script>
         <script src="src/states/PreloaderState.js"></script>
+        <script src="src/states/MainMenu.js"></script>
         <script src="src/states/GameState.js"></script>
                 
         <script src="src/entities/SadGuy.js"></script>
@@ -25,6 +27,7 @@
                 var game = new Phaser.Game(Config.MAP_WIDTH, Config.MAP_HEIGHT, Phaser.CANVAS, 'TheUkeGuy');
                 game.state.add('Boot', Ukulele.Boot);
                 game.state.add('Preloader', Ukulele.Preloader);
+                game.state.add('MainMenu', Ukulele.MainMenu);
                 game.state.add('Game', Ukulele.Game);
                 game.state.start('Boot');
             })();
