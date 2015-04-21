@@ -36,6 +36,8 @@ Ukulele.Preloader.prototype = {
         this.load.image('bg', 'assets/graphics/bg.png');
         
         // sounds
+        this.load.audio('menu', 'assets/audio/menu.mp3');
+        
         this.load.audio('drum', 'assets/audio/drum.mp3');
         this.load.audio('g', 'assets/audio/g.mp3');
         for (i = 1; i <= max; i++) {

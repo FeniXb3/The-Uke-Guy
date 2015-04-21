@@ -20,6 +20,10 @@ Ukulele.MainMenu.prototype.create = function () {
     this.displayMenu();
     this.setupSounds();
     this.setupControls();
+    this.displayForkMe();
+    
+    this.menuSound = this.game.add.audio('menu');
+    this.menuSound.loopFull();
 };
 
 
@@ -144,6 +148,7 @@ Ukulele.MainMenu.prototype.displayMenu = function () {
 
 Ukulele.MainMenu.prototype.startGame = function () {
     'use strict';
+    this.menuSound.stop();
     this.game.state.start('Game');
 };
 
@@ -192,6 +197,7 @@ Ukulele.MainMenu.prototype.showControls = function () {
 
 Ukulele.MainMenu.prototype.updateTryout = function (sound) {
     'use strict';
+    this.menuSound.stop();
     this.tryout.text = 'Sound: ' + sound;
 };
 
@@ -218,4 +224,16 @@ Ukulele.MainMenu.prototype.displayTitle = function () {
     //this.titleDino = this.game.add.bitmapText(0, 0, this.mainFont,  '+', 62);
     //this.titleDino.x = Config.MAP_WIDTH / 2 - this.titleDino.width / 2;
     //this.titleDino.y = Config.MAP_HEIGHT / 12 + 215;
+};
+
+
+Ukulele.MainMenu.prototype.displayForkMe = function () {
+    'use strict';
+    this.forkMeButton = this.add.button(Config.MAP_WIDTH, 0, 'forkme', this.goToGitHub, this, 0, 0, 0);
+    this.forkMeButton.anchor.setTo(1, 0);
+};
+
+Ukulele.MainMenu.prototype.goToGitHub =  function () {
+    'use strict';
+    window.open('https://github.com/FeniXb3/The-Uke-Guy', '_blank');
 };
