@@ -5,7 +5,7 @@ var SadGuy = function (game, x, y, image, velocity) {
     'use strict';
     x = x || 0;
     y = y || 0;
-    velocity = velocity || -66;
+    velocity = velocity || -25;
     
     Phaser.Sprite.call(this, game, x, y, image);
     this.game.add.existing(this);
@@ -81,7 +81,7 @@ SadGuy.prototype.update = function () {
         if (this.isSad) {
             this.velocity = this.startVelocity;
         } else {
-            this.velocity = this.startVelocity * 3;
+            this.velocity = this.startVelocity * 10;
         }
         
         if (this.happySong.notes[this.happySong.currentNote]) {

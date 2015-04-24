@@ -130,11 +130,7 @@ Ukulele.Game.prototype.setupSongs = function () {
         'C2',
         'E2',
         'A1',
-        'G',
-        'G2',
-        'A',
-        'E1',
-        'C'
+        'G2'
     ];
     this.songs.push(happySong);
     
@@ -149,7 +145,6 @@ Ukulele.Game.prototype.setupSongs = function () {
         'C2',
         'E2',
         'A',
-        'G',
         'G2',
         'A',
         'E1',
@@ -204,7 +199,7 @@ Ukulele.Game.prototype.songEnded = function (sound) {
             spriteName = 'zegis';
         }
         
-        this.sadGuy = new SadGuy(this.game, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2, spriteName, -40);
+        this.sadGuy = new SadGuy(this.game, Config.MAP_WIDTH, Config.MAP_HEIGHT / 3 * 2, spriteName, -25);
         
         this.sadGuy.scale.x += 0.5 * this.currentSong;
         this.sadGuy.scale.y += 0.5 * this.currentSong;
