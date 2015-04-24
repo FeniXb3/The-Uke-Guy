@@ -1,6 +1,8 @@
 # The Uke Guy 
 # Ludum Dare 32
 
+Gameplay and controls show - https://youtu.be/xuwcVbgKTHU
+
 The game is about a musician, who sits by the street and plays his instrument.
 However, he is not an ordinary musician - he is The Uke Guy! He uses ukulele
 as a weapon to fight with sadness!
